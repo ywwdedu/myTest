@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.ssm.dao.AccountDao">
+
+    <insert id="addUser"  parameterType="Account" >
+        INSERT INTO Account (password,username,email,state,randomcode)
+        VALUES (#{password},#{username},#{email},#{state},#{randomcode})
+    </insert>
+
+    <select id="selectAccount" parameterType="Integer" resultType="com.ssm.model.Account">
+        SELECT * FROM Account WHERE id=#{id}
+    </select>
+
+    <select id="selectAccountByName" parameterType="java.lang.String" resultType="com.ssm.model.Account">
+         SELECT * FROM Account WHERE username=#{username}
+    </select>
+
+    <select id="selectMapInfo" resultType="com.ssm.model.GeoCoordMap">
+        SELECT * FROM GeoCoordMap
+    </select>
+
+    <update id="updateMapInfo" parameterType="java.lang.String" >
+        UPDATE GeoCoordMap SET cityLocation=#{cityLocation}
+        <where>
+            cityName=#{cityName}
+        </where>
+    </update>
+
+    <select id="selectBjInfo" resultType="com.ssm.model.migrate">
+        SELECT  endCity , value FROM migrate
+        <where>
+            startCity="北京"
+        </where>
+    </select>
+
+    <update id="updateState" parameterType="java.lang.String">
+        UPDATE Account SET  state='1' WHERE randomcode=#{randomcode}
+    </update>
+
+    <select id="findpassWords" parameterType="java.lang.String">
+        SELECT password FROM Account WHERE username=#{username}
+    </select>
+</mapper>
